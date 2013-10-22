@@ -33,6 +33,7 @@ public class ErrorTest extends CamelTestSupport {
         getMockEndpoint("mock:never").whenAnyExchangeReceived(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
+                System.out.println("Received...");
                 throw new RuntimeException();
             }
         });
@@ -52,13 +53,13 @@ public class ErrorTest extends CamelTestSupport {
             public void configure() {
 
 
-                onException(Exception.class).to("mock:foundException").end();
+                onException(Exception.class).maximumRedeliveries(2).to("mock:foundException").end();
 
                 from("direct:start")
                         .to("direct:internal");
 
                 from("direct:internal").id("2")
-                        .errorHandler(defaultErrorHandler().maximumRedeliveries(2))
+                        .errorHandler(defaultErrorHandler())
                         .to("mock:never");
             }
         };
