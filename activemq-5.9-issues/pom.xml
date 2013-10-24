@@ -11,7 +11,7 @@
 
     <artifactId>activemq-5.9-issues</artifactId>
     <properties>
-        <activemq-version>5.9-SNAPSHOT</activemq-version>
+        <activemq-version>5.9.0</activemq-version>
     </properties>
 
     <dependencies>
