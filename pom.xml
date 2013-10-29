@@ -32,6 +32,7 @@
         <module>activemq-5.8-issues</module>
         <module>camel-snapshot</module>
         <module>activemq-stripped</module>
+        <module>camel-2.12.1-issues</module>
     </modules>
 
     <dependencies>
