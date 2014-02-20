@@ -25,7 +25,6 @@ import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.component.sjms.SjmsComponent;
 import org.apache.camel.impl.JndiRegistry;
-import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 
 import javax.management.MalformedObjectNameException;
@@ -35,10 +34,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author <a href="http://www.christianposta.com/blog">Christian Posta</a>
  */
-public class SjmsTestFromMailingList extends CamelTestSupport {
+public class SjmsTestFromMailingList extends CamelBrokerTestSupport {
 
-    private BrokerService broker;
-    private ActiveMQConnectionFactory connectionFactory;
+
 
     @Test
     public void testSjmsTTL() throws Exception {
@@ -49,9 +47,7 @@ public class SjmsTestFromMailingList extends CamelTestSupport {
         TimeUnit.SECONDS.sleep(5);
 
         assertNoMessagesInQueue("testQ1");
-
-        // SJMS component does not allow setting QoS on queues
-//        assertNoMessagesInQueue("testQ2");
+        assertNoMessagesInQueue("testQ2");
 
 
     }
@@ -91,30 +87,9 @@ public class SjmsTestFromMailingList extends CamelTestSupport {
     }
 
 
-    @Override
-    public void setUp() throws Exception {
-        createBroker();
-        startBroker();
-        createConnectionFactory();
-        super.setUp();
-    }
 
-    private void createConnectionFactory() {
-        this.connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
-    }
 
-    private void startBroker() throws Exception {
-        assertNotNull(broker);
-        broker.start();
-        broker.waitUntilStarted();
-    }
-
-    private void createBroker() {
-        this.broker = new BrokerService();
-        configureBroker(broker);
-    }
-
-    private void configureBroker(BrokerService broker) {
+    protected void configureBroker(BrokerService broker) {
         broker.setBrokerName("localhost");
         broker.setDeleteAllMessagesOnStartup(true);
 
@@ -128,11 +103,5 @@ public class SjmsTestFromMailingList extends CamelTestSupport {
         broker.setDestinationPolicy(policyMap);
     }
 
-    @Override
-    public void tearDown() throws Exception {
 
-        broker.stop();
-        broker.waitUntilStopped();
-        broker = null;
-    }
 }
