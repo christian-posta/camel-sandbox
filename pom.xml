@@ -34,6 +34,8 @@
         <module>activemq-stripped</module>
         <module>camel-2.12.1-issues</module>
         <module>camel-2.12.2-issues</module>
+      <module>arquillian-example</module>
+        <module>gravia-itests</module>
     </modules>
 
     <dependencies>
